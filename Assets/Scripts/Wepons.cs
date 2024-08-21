@@ -5,12 +5,30 @@ using UnityEngine;
 public class Wepons : MonoBehaviour
 {
     [Header("Attached to who?")]
-    [SerializeField] private Transform _pivot;
+    [SerializeField] private GameObject _pivot;
+    private DetectLayer _playerDetectWhereToPoint;
     [SerializeField] private float _radius;
     private Transform _closestEnemy;
-
-    public void SetClosestEnemy(Transform closestEnemy)
+    private int frameUpdateCounter = 0, framesNumber = 0;
+    void Start()
     {
-        _closestEnemy = closestEnemy;
+        if(!TryGetComponent<DetectLayer>(out _playerDetectWhereToPoint))
+        {
+            Debug.LogError("Could not get the detectlayer component");
+        }
+        framesNumber = _playerDetectWhereToPoint.GetFramesNumber();
+    }
+    void FixedUpdate()
+    {
+        UpdatedWhereToPoint();
+    }
+    void UpdatedWhereToPoint()
+    {
+        if(frameUpdateCounter >= framesNumber)
+        {
+            _closestEnemy = _playerDetectWhereToPoint.closest;
+            frameUpdateCounter = 0;
+        }
+        frameUpdateCounter++;
     }
 }
