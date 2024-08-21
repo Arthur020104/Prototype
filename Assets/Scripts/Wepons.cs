@@ -19,6 +19,7 @@ public class Wepons : MonoBehaviour
         {
             Debug.LogError("Could not get the detectlayer component");
         }
+        UpdatePos(new Vector3(1,1,0));
         framesNumber = _playerDetectWhereToPoint.GetFramesNumber();
     }
     void Update()
@@ -32,18 +33,19 @@ public class Wepons : MonoBehaviour
             if(_playerDetectWhereToPoint.closest !=null )//&&_closestEnemy !=  _playerDetectWhereToPoint.closest)
             {
                 _closestEnemy = _playerDetectWhereToPoint.closest;
-                Vector3 diff = _closestEnemy.position -_pivot.transform.position;
-                diff /= Mathf.Sqrt(Mathf.Pow(diff.x,2)+Mathf.Pow(diff.y,2));
-                diff *= _radius;
-                Debug.Log(diff);
-                Debug.Log( _pivot.transform.position +diff);
-                gameObject.transform.position = _pivot.transform.position +diff;
+                UpdatePos(_closestEnemy.transform.position);
             }
-            
-                
-            
             frameUpdateCounter = 0;
         }
         frameUpdateCounter++;
+    }
+    void UpdatePos(Vector3 whereToUpdate)
+    {
+        Vector3 diff = whereToUpdate -_pivot.transform.position;
+        diff /= Mathf.Sqrt(Mathf.Pow(diff.x,2)+Mathf.Pow(diff.y,2));
+        diff *= _radius;
+        Debug.Log(diff);//remove later
+        Debug.Log( _pivot.transform.position +diff);//remove later
+        gameObject.transform.position = _pivot.transform.position +diff;
     }
 }
