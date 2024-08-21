@@ -12,13 +12,13 @@ public class DetectLayer : MonoBehaviour
     public Transform closest = null;
     void Start()
     {
-        if(_frameUpdate<=0)
+        if(_frameUpdate==0)
         {
             _frameUpdate = 1;
         }
         framesNumber = 60/_frameUpdate;
     }
-    void FixedUpdate()
+    void Update()
     {
         FindEnemy();
     }

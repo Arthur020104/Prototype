@@ -21,7 +21,7 @@ public class Wepons : MonoBehaviour
         }
         framesNumber = _playerDetectWhereToPoint.GetFramesNumber();
     }
-    void FixedUpdate()
+    void Update()
     {
         UpdatedWhereToPoint();
     }
@@ -32,9 +32,12 @@ public class Wepons : MonoBehaviour
             if(_playerDetectWhereToPoint.closest !=null )//&&_closestEnemy !=  _playerDetectWhereToPoint.closest)
             {
                 _closestEnemy = _playerDetectWhereToPoint.closest;
-                Vector3 diff = _pivot.transform.position - _closestEnemy.position;
+                Vector3 diff = _closestEnemy.position -_pivot.transform.position;
                 diff /= Mathf.Sqrt(Mathf.Pow(diff.x,2)+Mathf.Pow(diff.y,2));
-                gameObject.transform.position = diff * _radius;
+                diff *= _radius;
+                Debug.Log(diff);
+                Debug.Log( _pivot.transform.position +diff);
+                gameObject.transform.position = _pivot.transform.position +diff;
             }
             
                 
