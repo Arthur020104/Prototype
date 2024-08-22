@@ -39,6 +39,11 @@ public class DetectLayer : MonoBehaviour
                     closest = collider.transform;
                 }
             }
+            Debug.Log(detectedColliders.Length );
+            if(detectedColliders.Length ==0)
+            {
+                closest = null;
+            }
             framesNumber = 0;
         }
         frameUpdateCounter++;
