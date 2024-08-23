@@ -6,21 +6,16 @@ public class DetectLayer : MonoBehaviour
 {
     [SerializeField]private float _radiusDetection = 4;
     [SerializeField]private LayerMask _detectionLayer;
-    [Header("Check Closest Enemy(60 update 1 time per seccond, 1 Update 60 times per seccond)")]
-    [SerializeField]private int _frameUpdate = 0;
-    private int frameUpdateCounter = 0, framesNumber = 0;
+    [Header("Time to update in s")]
+    [SerializeField]private float _timeToUpdateInS = 0f;
     public Transform closest = null;
     void Start()
     {
-        if(_frameUpdate==0)
+        if(_timeToUpdateInS<=0.01)
         {
-            _frameUpdate = 1;
+            _timeToUpdateInS = 0.01f;
         }
-        framesNumber = 60/_frameUpdate;
-    }
-    void Update()
-    {
-        FindEnemy();
+        StartCoroutine("FindEnemyCoroutine");
     }
     static float Distance(Vector2 point1, Vector2 point2)
     {
@@ -29,27 +24,31 @@ public class DetectLayer : MonoBehaviour
     }
     void FindEnemy()
     {
-        if(frameUpdateCounter > framesNumber)
+        Collider2D[] detectedColliders = Physics2D.OverlapCircleAll(gameObject.transform.position, _radiusDetection,  _detectionLayer);
+        foreach(Collider2D collider in detectedColliders)
         {
-            Collider2D[] detectedColliders = Physics2D.OverlapCircleAll(gameObject.transform.position, _radiusDetection,  _detectionLayer);
-            foreach(Collider2D collider in detectedColliders)
+            if(closest == null || Distance(gameObject.transform.position, closest.position) > Distance(collider.gameObject.transform.position, gameObject.transform.position) )
             {
-                if(closest == null || Distance(gameObject.transform.position, closest.position) > Distance(collider.gameObject.transform.position, gameObject.transform.position) )
-                {
-                    closest = collider.transform;
-                }
+                closest = collider.transform;
             }
-            Debug.Log(detectedColliders.Length );
-            if(detectedColliders.Length ==0)
-            {
-                closest = null;
-            }
-            framesNumber = 0;
         }
-        frameUpdateCounter++;
+        Debug.Log(detectedColliders.Length );
+        if(detectedColliders.Length ==0)
+        {
+            closest = null;
+        }
+            
     }
-    public int GetFramesNumber()
+    public float GetTimeToUpdate()
     {
-        return framesNumber;
+        return _timeToUpdateInS;
+    }
+    IEnumerator FindEnemyCoroutine()
+    {
+        while(true)
+        {
+            FindEnemy();
+            yield return new WaitForSeconds(_timeToUpdateInS);
+        }
     }
 }
