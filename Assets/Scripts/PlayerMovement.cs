@@ -6,9 +6,11 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Basic Things")]
     [SerializeField]private float _speed;
-    //movement mode try to switch to using enums
+
     [SerializeField]private int _movementMode = 0;
+
     private Rigidbody2D _myRb;
+    
     void Start()
     {
         if(_speed == 0)

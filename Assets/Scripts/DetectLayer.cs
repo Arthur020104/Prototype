@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class DetectLayer : MonoBehaviour
 {
+    [Header("Detection")]
     [SerializeField]private float _radiusDetection = 4;
+
     [SerializeField]private LayerMask _detectionLayer;
+
     [Header("Time to update in s")]
     [SerializeField]private float _timeToUpdateInS = 0f;
-    public Transform closest = null;
+
+    private Transform _closest = null;
+
     void Start()
     {
         if(_timeToUpdateInS<=0.01)
@@ -27,15 +32,14 @@ public class DetectLayer : MonoBehaviour
         Collider2D[] detectedColliders = Physics2D.OverlapCircleAll(gameObject.transform.position, _radiusDetection,  _detectionLayer);
         foreach(Collider2D collider in detectedColliders)
         {
-            if(closest == null || Distance(gameObject.transform.position, closest.position) > Distance(collider.gameObject.transform.position, gameObject.transform.position) )
+            if(_closest == null || Distance(gameObject.transform.position, _closest.position) > Distance(collider.gameObject.transform.position, gameObject.transform.position) )
             {
-                closest = collider.transform;
+                _closest = collider.transform;
             }
         }
-        Debug.Log(detectedColliders.Length );
         if(detectedColliders.Length ==0)
         {
-            closest = null;
+            _closest = null;
         }
             
     }
@@ -50,5 +54,9 @@ public class DetectLayer : MonoBehaviour
             FindEnemy();
             yield return new WaitForSeconds(_timeToUpdateInS);
         }
+    }
+    public Transform GetClosest()
+    {
+        return _closest;
     }
 }
