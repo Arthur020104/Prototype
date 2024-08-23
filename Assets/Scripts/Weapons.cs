@@ -78,10 +78,12 @@ public class Weapons : MonoBehaviour
 
         gameObject.transform.position = new Vector3(_pivot.transform.position.x + RADIUS * Mathf.Cos(angle),_pivot.transform.position.y + RADIUS * Mathf.Sin(angle),gameObject.transform.position.z);
         
-        float whereToPoint = Mathf.Atan2(diff.y, diff.x);
-        gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, whereToPoint * Mathf.Rad2Deg));
+        //float whereToPoint = Mathf.Atan2(diff.y, diff.x);
+        //gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, whereToPoint * Mathf.Rad2Deg));
+        transform.right = whereToUpdate - transform.position;
 
         _noEnemysPosition = gameObject.transform.position - _pivot.transform.position;
+
     }
     IEnumerator UpdatedWhereToPointCoroutine()
     {
