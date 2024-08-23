@@ -67,7 +67,7 @@ public class Weapons : MonoBehaviour
             gameObject.transform.position = _pivot.transform.position + _noEnemysPosition;
         }
     }
-    void UpdatePos(Vector3 whereToUpdate)
+    void UpdatePos(Vector3 whereToUpdate)//Refactor later
     {
         Vector3 diff = whereToUpdate -_pivot.transform.position;
         diff /= Mathf.Sqrt(Mathf.Pow(diff.x,2)+Mathf.Pow(diff.y,2));
