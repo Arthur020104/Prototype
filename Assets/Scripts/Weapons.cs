@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Wepons : MonoBehaviour
+public class Weapons : MonoBehaviour
 {
     [Header("Attached to who?")]
     [SerializeField] private GameObject _pivot;
@@ -11,10 +11,35 @@ public class Wepons : MonoBehaviour
     private float _radius = 1.3f;//radius from the pivit
     private Transform _closestEnemy;
     private float _timeToUpdateInS;
-    [SerializeField]private float _offset = 180;
-    private Vector3 _noEnemysPosition;
-    //[Header("Gun things?")]
-   // [SerializeField]private GameObject _gunPrefab;
+    private float _offset;
+    private Vector3 _noEnemysPosition; 
+    public static float BASEOFFSET = 20;
+
+    public static void CheckWepons()
+    {
+        Weapons[] allWeapons = FindObjectsOfType<Weapons>();
+
+        if (allWeapons.Length * BASEOFFSET > 360)
+        {
+            Debug.LogError("ERROR: Too many weapon objects in the scene.");
+            return;
+        }
+
+        allWeapons[0]._offset = 0; // The first weapon does not have an offset
+
+        for (int i = 1; i < allWeapons.Length; i += 2)
+        {
+            int positiveOffsetIndex = i;
+            int negativeOffsetIndex = i + 1;
+
+            if (positiveOffsetIndex < allWeapons.Length)
+                allWeapons[positiveOffsetIndex]._offset = BASEOFFSET * (i + 1) / 2;
+
+            if (negativeOffsetIndex < allWeapons.Length)
+                allWeapons[negativeOffsetIndex]._offset = -BASEOFFSET * (i + 1) / 2;
+        }
+    }
+
     void Start()
     {
         if(!_pivot.TryGetComponent<DetectLayer>(out _playerDetectWhereToPoint))
@@ -54,7 +79,9 @@ public class Wepons : MonoBehaviour
         angle+= _offset* Mathf.Deg2Rad;
 
         gameObject.transform.position = new Vector3(_pivot.transform.position.x + _radius * Mathf.Cos(angle),_pivot.transform.position.y + _radius * Mathf.Sin(angle),gameObject.transform.position.z);
-
+        
+        float whereToPoint = Mathf.Atan2(diff.y, diff.x);
+        gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, whereToPoint * Mathf.Rad2Deg));
 
         _noEnemysPosition = gameObject.transform.position - _pivot.transform.position;
     }
