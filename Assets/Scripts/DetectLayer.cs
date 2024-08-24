@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DetectLayer : MonoBehaviour
@@ -22,7 +21,7 @@ public class DetectLayer : MonoBehaviour
         }
         StartCoroutine("FindEnemyCoroutine");
     }
-    static float Distance(Vector2 point1, Vector2 point2)
+    public static float Distance(Vector2 point1, Vector2 point2)
     {
         float distance = Mathf.Sqrt(Mathf.Pow(point1.x - point2.x, 2) + Mathf.Pow(point1.y - point2.y ,2));
         return distance;
