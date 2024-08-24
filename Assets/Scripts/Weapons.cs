@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Weapons : MonoBehaviour
@@ -11,7 +10,7 @@ public class Weapons : MonoBehaviour
 
     private DetectLayer _detectWhereToPoint;
 
-    private Transform _closestPoint;
+    protected Transform _closestPoint;
 
     private Vector3 _noEnemysPosition;
 
@@ -41,7 +40,7 @@ public class Weapons : MonoBehaviour
         }
     }
 
-    void Start()
+    protected virtual void Start()
     {
         if(!_pivot.TryGetComponent<DetectLayer>(out _detectWhereToPoint))
         {
@@ -85,6 +84,7 @@ public class Weapons : MonoBehaviour
         _noEnemysPosition = gameObject.transform.position - _pivot.transform.position;
 
     }
+
     IEnumerator UpdatedWhereToPointCoroutine()
     {
         while(true)
