@@ -70,6 +70,7 @@
     <Compile Include="Assets\Scripts\Bullet.cs" />
     <Compile Include="Assets\Scripts\DrawForwardLine.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\SpawManager.cs" />
     <Compile Include="Assets\Scripts\LifeSystem.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
   </ItemGroup>
