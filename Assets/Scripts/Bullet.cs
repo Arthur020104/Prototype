@@ -5,12 +5,13 @@ public class Bullet : MonoBehaviour
     //[Header("Detection")]
 
     [SerializeField]private string _hitTag;
-    [SerializeField]private float _maxDistance = 10f, _speed = 4f;
+    [SerializeField]private float _maxDistance = 10f, _speed = 4f,_offset = 1.5f;
     [SerializeField]private int _damage = 0;
     private Vector2 _inicialPos;
     void Start()
     {
         _inicialPos = gameObject.transform.position;
+        gameObject.transform.Translate(Vector2.right * _offset);
     }
     void Update()
     {
@@ -30,8 +31,10 @@ public class Bullet : MonoBehaviour
         Debug.Log("on bullet collision");
         if(other.gameObject.tag != _hitTag || !other.gameObject.TryGetComponent<LifeSystem>(out lf))
         {
+            Debug.Log("1");
             return;
         }
         lf.TakeDamage(_damage);
+        Destroy(gameObject);
     }
 }
