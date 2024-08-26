@@ -28,9 +28,7 @@ public class Weapons : MonoBehaviour
             Debug.LogError("ERROR: Too many weapon objects in the scene.");
             return;
         }
-
         allWeapons[0]._offset = 0; // The first weapon does not have an offset
-
         for (int i = 1; i < allWeapons.Length; i += 2)
         {
             allWeapons[i]._offset = BASEOFFSET * (i + 1) / 2;
@@ -47,12 +45,8 @@ public class Weapons : MonoBehaviour
             Debug.LogError("Could not get the detectlayer component");
         }
         _timeToUpdateInS = _detectWhereToPoint.GetTimeToUpdate();
-        _noEnemysPosition = new Vector3(1,1,0);
+        _noEnemysPosition = new Vector3(0f, 50f,0f);
         StartCoroutine("UpdatedWhereToPointCoroutine");
-    }
-    void Update()
-    {
-        UpdatedWhereToPoint();
     }
     void UpdatedWhereToPoint()
     {
@@ -62,29 +56,36 @@ public class Weapons : MonoBehaviour
             UpdatePos(_closestPoint.transform.position);
             return;
         }
-        gameObject.transform.position = _pivot.transform.position + _noEnemysPosition;
+        UpdatePos(_noEnemysPosition);
     }
     void UpdatePos(Vector3 whereToUpdate)//Refactor later
+    {
+        RotateTowardsObjectRelativeToPivot(whereToUpdate);
+        
+        PointToObject(whereToUpdate);
+        
+        
+       _noEnemysPosition = whereToUpdate;
+
+    }
+    void RotateTowardsObjectRelativeToPivot(Vector3 whereToUpdate)
     {
         Vector3 diff = whereToUpdate -_pivot.transform.position;
         diff /= Mathf.Sqrt(Mathf.Pow(diff.x,2)+Mathf.Pow(diff.y,2));
         diff *= RADIUS;
 
-        gameObject.transform.position = _pivot.transform.position + diff;
+        diff = _pivot.transform.position + diff;
 
-        float angle = Mathf.Atan2( whereToUpdate.y - gameObject.transform.position.y,  whereToUpdate.x - gameObject.transform.position.x);
+        float angle = Mathf.Atan2( whereToUpdate.y - diff.y,  whereToUpdate.x - diff.x);
         angle+= _offset* Mathf.Deg2Rad;
 
         gameObject.transform.position = new Vector3(_pivot.transform.position.x + RADIUS * Mathf.Cos(angle),_pivot.transform.position.y + RADIUS * Mathf.Sin(angle),gameObject.transform.position.z);
-        
-        //float whereToPoint = Mathf.Atan2(diff.y, diff.x);
-        //gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, whereToPoint * Mathf.Rad2Deg));
-        transform.right = whereToUpdate - transform.position;
-
-        _noEnemysPosition = gameObject.transform.position - _pivot.transform.position;
-
     }
 
+    void PointToObject(Vector3 whereToUpdate)
+    {
+        transform.right = whereToUpdate - transform.position;
+    }
     IEnumerator UpdatedWhereToPointCoroutine()
     {
         while(true)
