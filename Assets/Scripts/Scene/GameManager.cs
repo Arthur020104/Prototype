@@ -6,6 +6,6 @@ public class GameManager : MonoBehaviour
 {
     void Start()
     {
-        Weapons.CheckWepons();
+       // Weapons.CheckWeapons();
     }
 }

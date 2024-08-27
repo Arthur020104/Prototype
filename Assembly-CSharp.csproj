@@ -64,14 +64,15 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.28f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Weapons.cs" />
-    <Compile Include="Assets\Scripts\DetectLayer.cs" />
-    <Compile Include="Assets\Scripts\FireWeapon.cs" />
-    <Compile Include="Assets\Scripts\Bullet.cs" />
-    <Compile Include="Assets\Scripts\DrawForwardLine.cs" />
-    <Compile Include="Assets\Scripts\GameManager.cs" />
-    <Compile Include="Assets\Scripts\SpawManager.cs" />
-    <Compile Include="Assets\Scripts\LifeSystem.cs" />
+    <Compile Include="Assets\Scripts\Weapons\FireWeapon.cs" />
+    <Compile Include="Assets\Scripts\Generic\LifeSystem.cs" />
+    <Compile Include="Assets\Scripts\Weapons\Weapons.cs" />
+    <Compile Include="Assets\Scripts\Generic\DetectLayer.cs" />
+    <Compile Include="Assets\Scripts\Scene\SpawManager.cs" />
+    <Compile Include="Assets\Scripts\Generic\DrawForwardLine.cs" />
+    <Compile Include="Assets\Scripts\Scene\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Weapons\Coldre.cs" />
+    <Compile Include="Assets\Scripts\Weapons\Bullet.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
   </ItemGroup>
   <ItemGroup>

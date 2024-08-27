@@ -1,10 +1,11 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Weapons : MonoBehaviour
 {
-    [Header("Attached to who?")]
-    [SerializeField] private GameObject _pivot;
+    //[Header("Attached to who?")]
+    private GameObject _pivot;
 
     private float _offset, _timeToUpdateInS;
 
@@ -19,15 +20,17 @@ public class Weapons : MonoBehaviour
 
     private static float RADIUS = 1.3f;
 
-    public static void CheckWepons()
+    protected string _hitTag = "";
+public static void CheckWeapons(Weapons[] allWeapons)
+{
+    if (allWeapons.Length * BASEOFFSET > 360)
     {
-        Weapons[] allWeapons = FindObjectsOfType<Weapons>();
+        Debug.LogError("ERROR: Too many weapon objects in the scene.");
+        return;
+    }
 
-        if (allWeapons.Length * BASEOFFSET > 360)
-        {
-            Debug.LogError("ERROR: Too many weapon objects in the scene.");
-            return;
-        }
+    if (allWeapons.Length > 0)
+    {
         allWeapons[0]._offset = 0; // The first weapon does not have an offset
         for (int i = 1; i < allWeapons.Length; i += 2)
         {
@@ -37,9 +40,15 @@ public class Weapons : MonoBehaviour
                 allWeapons[i + 1]._offset = -BASEOFFSET * (i + 1) / 2;
         }
     }
-
+}
     protected virtual void Start()
     {
+        //Set the _pivot to be the parent of the weapon
+        _pivot = gameObject.transform.parent.gameObject;
+        if(_pivot == null)
+        {
+            Debug.LogError("Could not get the pivot");
+        }
         if(!_pivot.TryGetComponent<DetectLayer>(out _detectWhereToPoint))
         {
             Debug.LogError("Could not get the detectlayer component");
@@ -93,5 +102,9 @@ public class Weapons : MonoBehaviour
             UpdatedWhereToPoint();
             yield return new WaitForSeconds(_timeToUpdateInS);
         }
+    }
+    public void SetHitTag(string tag)
+    {
+        _hitTag = tag;
     }
 }
