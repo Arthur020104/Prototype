@@ -462,7 +462,7 @@ MonoBehaviour:
   _detectionLayer:
     serializedVersion: 2
     m_Bits: 64
-  _timeToUpdateInS: 0.01
+  _timeToUpdateInS: 0.006
 --- !u!114 &1363869692
 MonoBehaviour:
   m_ObjectHideFlags: 0

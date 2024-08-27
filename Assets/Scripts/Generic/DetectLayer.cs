@@ -9,15 +9,15 @@ public class DetectLayer : MonoBehaviour
     [SerializeField]private LayerMask _detectionLayer;
 
     [Header("Time to update in s")]
-    [SerializeField]private float _timeToUpdateInS = 0f;
+    [SerializeField]private float _timeToUpdateInS = 0.015f;
 
     private Transform _closest = null;
 
     void Start()
     {
-        if(_timeToUpdateInS<=0.01)
+        if(_timeToUpdateInS<=0.001)
         {
-            _timeToUpdateInS = 0.01f;
+            _timeToUpdateInS = 0.001f;
         }
         StartCoroutine("FindEnemyCoroutine");
     }
